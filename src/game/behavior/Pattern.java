@@ -18,4 +18,6 @@ public abstract class Pattern {
 	
 	public abstract void update(long currentTime);
 	
+	public abstract boolean isFinished();
+	
 }

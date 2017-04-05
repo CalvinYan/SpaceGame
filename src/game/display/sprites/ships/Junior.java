@@ -1,6 +1,7 @@
 package game.display.sprites.ships;
 
 import game.display.SpaceGame;
+import game.display.sprites.bullets.StandardEnemyBullet;
 import game.display.sprites.bullets.StandardPlayerBullet;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -107,9 +108,8 @@ public class Junior extends PlayerShip {
 	}
 	
 	private void fire() {
-		System.out.println("pew");
 		shootStartTime = System.nanoTime();
-		SpaceGame.add(new StandardPlayerBullet(x, y, this));
+		new StandardPlayerBullet(x, y, this);
 	}
 
 	@Override

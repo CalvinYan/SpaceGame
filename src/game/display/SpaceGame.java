@@ -3,8 +3,11 @@ package game.display;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import game.behavior.GlideAcceleratePattern;
+import game.behavior.ShootDownPattern;
 import game.display.sprites.Sprite;
 import game.display.sprites.bullets.Bullet;
+import game.display.sprites.ships.EnemyShip;
 import game.display.sprites.ships.Junior;
 import game.display.sprites.ships.PlayerShip;
 import javafx.animation.AnimationTimer;
@@ -45,13 +48,19 @@ public class SpaceGame extends Application {
 		
 		player.mapControls(scene);
 		
+		for (int i = 0; i < 5; i++) {
+			EnemyShip grunt = new EnemyShip(100 * i + 100, 0);
+			grunt.addPattern(new GlideAcceleratePattern(grunt, 20, -1, 270));
+			grunt.addPattern(new ShootDownPattern(grunt));
+		}
+		
+		
 		new AnimationTimer() {
 
 			@Override
 			public void handle(long currentTime) {
 				gc.setFill(Color.BLACK);
 				gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-				System.out.println(sprites.size());
 				Iterator<Sprite> iter = sprites.iterator();
 				while(iter.hasNext()) {
 					Sprite sprite = iter.next();

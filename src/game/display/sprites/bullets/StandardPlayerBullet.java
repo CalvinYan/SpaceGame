@@ -11,8 +11,8 @@ public class StandardPlayerBullet extends Bullet {
 		image = new Image("file:Assets/standardplayerbullet.png");
 		this.x = (int)(x + (parent.getWidth() - image.getWidth())/2);
 		this.y = (int)(y - image.getHeight());
-		direction = 90;
-		speed = 15;
+		direction = Math.PI / 2;
+		speed = 25;
 		
 	}
 

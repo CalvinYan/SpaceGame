@@ -17,9 +17,11 @@ public abstract class Bullet extends Sprite {
 	}
 
 	public void update(long currentTime) {
-		x += speed * Math.cos(Math.toRadians(direction));
-		y -= speed * Math.sin(Math.toRadians(direction));
-		System.out.println(x + " " + y);
+		System.out.println(direction);
+		x += speed * Math.cos(direction);
+		y -= speed * Math.sin(direction);
 	}
+	
+	public boolean damageable() { return false; }
 	
 }

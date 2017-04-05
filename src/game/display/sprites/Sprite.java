@@ -31,6 +31,8 @@ public abstract class Sprite {
 	public double getWidth() { return image.getWidth(); }
 	public double getHeight() { return image.getHeight(); }
 	
+	public abstract boolean damageable();
+	
 	public Image getImage() { return image; }
 	
 	public boolean outOfBounds() {
