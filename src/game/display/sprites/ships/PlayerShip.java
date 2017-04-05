@@ -1,8 +1,5 @@
-package game.ships;
+package game.display.sprites.ships;
 
-import java.util.ArrayList;
-
-import game.bullets.Bullet;
 import javafx.scene.Scene;
 
 public abstract class PlayerShip extends Ship {

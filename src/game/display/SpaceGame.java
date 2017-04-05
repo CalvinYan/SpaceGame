@@ -3,9 +3,10 @@ package game.display;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import game.bullets.Bullet;
-import game.ships.Junior;
-import game.ships.PlayerShip;
+import game.display.sprites.Sprite;
+import game.display.sprites.bullets.Bullet;
+import game.display.sprites.ships.Junior;
+import game.display.sprites.ships.PlayerShip;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -20,7 +21,8 @@ import javafx.stage.Stage;
 
 public class SpaceGame extends Application {
 	
-	public static ArrayList<Bullet> bullets = new ArrayList<Bullet>();
+	public static ArrayList<Sprite> sprites = new ArrayList<Sprite>(),
+									toAdd = new ArrayList<Sprite>();
 	
 	private PlayerShip player;
 	
@@ -47,27 +49,27 @@ public class SpaceGame extends Application {
 
 			@Override
 			public void handle(long currentTime) {
-				player.update(currentTime);
 				gc.setFill(Color.BLACK);
 				gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-				int x = player.getX() + player.getXVelocity(), y = player.getY() + player.getYVelocity();
-				// Player can't move past walls
-				if (x < 0 || x > canvas.getWidth() - player.getWidth()) x = player.getX();
-				if (y < 0 || y > canvas.getHeight() - player.getHeight()) y = player.getY();
-				gc.drawImage(player.getImage(), x, y);
-				Iterator<Bullet> iter = bullets.iterator();
+				System.out.println(sprites.size());
+				Iterator<Sprite> iter = sprites.iterator();
 				while(iter.hasNext()) {
-					Bullet bullet = iter.next();
-					bullet.update();
-					gc.drawImage(bullet.getImage(), bullet.getX(), bullet.getY());
+					Sprite sprite = iter.next();
+					sprite.update(currentTime);
+					sprite.render(gc);
+					if (sprite.outOfBounds()) iter.remove();
 				}
-				player.setX(x);
-				player.setY(y);
+				sprites.addAll(toAdd);
+				toAdd = new ArrayList<Sprite>();
 			}
 			
 		}.start();
 		
 		stage.show();
+	}
+	
+	public static void add(Sprite sprite) {
+		toAdd.add(sprite);
 	}
 	
 	public static void main(String[] args) {

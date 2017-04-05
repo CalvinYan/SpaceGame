@@ -1,6 +1,7 @@
-package game.ships;
+package game.display.sprites.ships;
 
-import game.bullets.StandardPlayerBullet;
+import game.display.SpaceGame;
+import game.display.sprites.bullets.StandardPlayerBullet;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -19,7 +20,7 @@ public class Junior extends PlayerShip {
 	private boolean wPressed = false, aPressed = false, sPressed = false, dPressed = false;
 	private boolean enterPressed = false;
 	
-	private long shootStartTime;
+	private long shootStartTime = 0;
 	
 	public Junior(int x, int y) {
 		super(x, y);
@@ -46,7 +47,6 @@ public class Junior extends PlayerShip {
 					break;
 				case "ENTER":
 					// Fire first shot if haven't already
-					if (!enterPressed) fire();
 					enterPressed = true;
 					
 					break;
@@ -87,30 +87,35 @@ public class Junior extends PlayerShip {
 	
 	// Manages timed actions of the ship
 	public void update(long currentTime) {
+		int xVel = 0;
+		if (aPressed) xVel -= 10;
+		if (dPressed) xVel += 10;
+		if (x + xVel < 0 || x + xVel + getWidth() > 800) xVel = 0;
+		
+		int yVel = 0;
+		if (wPressed) yVel -= 10;
+		if (sPressed) yVel += 10;
+		if (y + yVel < 0 || y + yVel + getHeight() > 1000) yVel = 0;
+		
+		x += xVel;
+		y += yVel;
+		
 		int bulletsPerSecond = 10;
 		if (enterPressed && (currentTime - shootStartTime) > 1000000000/bulletsPerSecond) {
 			fire();
 		}
 	}
 	
-	// Determine where the ship is going based on which keys are pressed
-	
-	public int getXVelocity() {
-		int xVel = 0;
-		if (aPressed) xVel -= 10;
-		if (dPressed) xVel += 10;
-		return xVel;
-	}
-	public int getYVelocity() {
-		int yVel = 0;
-		if (wPressed) yVel -= 10;
-		if (sPressed) yVel += 10;
-		return yVel;
-	}
-	
 	private void fire() {
+		System.out.println("pew");
 		shootStartTime = System.nanoTime();
-		bullets.add(new StandardPlayerBullet(x, y, this));
+		SpaceGame.add(new StandardPlayerBullet(x, y, this));
+	}
+
+	@Override
+	public void onHit() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

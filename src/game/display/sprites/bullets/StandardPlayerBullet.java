@@ -1,23 +1,22 @@
-package game.bullets;
+package game.display.sprites.bullets;
 
-import game.ships.Ship;
+import game.display.SpaceGame;
+import game.display.sprites.ships.Ship;
 import javafx.scene.image.Image;
 
 public class StandardPlayerBullet extends Bullet {
 
 	public StandardPlayerBullet(int x, int y, Ship parent) {
-		super(parent);
+		super(x, y, parent);
 		image = new Image("file:Assets/standardplayerbullet.png");
 		this.x = (int)(x + (parent.getWidth() - image.getWidth())/2);
 		this.y = (int)(y - image.getHeight());
 		direction = 90;
-		speed = 25;
+		speed = 15;
 		
 	}
 
 	@Override
-	public void onHit() {
-		parent.getBullets().remove(this);
-	}
+	public void onHit() {}
 
 }
