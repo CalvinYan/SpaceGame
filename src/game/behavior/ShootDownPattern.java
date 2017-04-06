@@ -14,7 +14,7 @@ public class ShootDownPattern extends Pattern {
 		int bulletsPerSecond = 3;
 		if (currentTime - patternStartTime > 1000000000/bulletsPerSecond) {
 			patternStartTime = currentTime;
-			new StandardEnemyBullet(parent.getX(), parent.getY(), parent);
+			new StandardEnemyBullet(parent.getX(), parent.getY(), 1, parent);
 		}
 	}
 

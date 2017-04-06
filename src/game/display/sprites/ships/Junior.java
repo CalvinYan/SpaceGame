@@ -1,6 +1,7 @@
 package game.display.sprites.ships;
 
 import game.display.SpaceGame;
+import game.display.sprites.Sprite;
 import game.display.sprites.bullets.StandardEnemyBullet;
 import game.display.sprites.bullets.StandardPlayerBullet;
 import javafx.event.EventHandler;
@@ -23,8 +24,8 @@ public class Junior extends PlayerShip {
 	
 	private long shootStartTime = 0;
 	
-	public Junior(int x, int y) {
-		super(x, y);
+	public Junior(int x, int y, int health) {
+		super(x, y, health);
 		image = new Image("file:Assets/Drawing.png");
 	}
 	
@@ -109,11 +110,11 @@ public class Junior extends PlayerShip {
 	
 	private void fire() {
 		shootStartTime = System.nanoTime();
-		new StandardPlayerBullet(x, y, this);
+		new StandardPlayerBullet(x, y, 1, this);
 	}
 
 	@Override
-	public void onHit() {
+	public void onHit(Sprite other) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -25,13 +25,14 @@ import javafx.stage.Stage;
 public class SpaceGame extends Application {
 	
 	public static ArrayList<Sprite> sprites = new ArrayList<Sprite>(),
-									toAdd = new ArrayList<Sprite>();
+									toAdd = new ArrayList<Sprite>(),
+									toRemove = new ArrayList<Sprite>();
 	
 	private PlayerShip player;
 	
 	@Override
 	public void start(Stage stage) throws Exception {
-		player = new Junior(400, 500);
+		player = new Junior(400, 500, 10);
 
 		stage.setTitle("Testing");
 		
@@ -49,7 +50,7 @@ public class SpaceGame extends Application {
 		player.mapControls(scene);
 		
 		for (int i = 0; i < 5; i++) {
-			EnemyShip grunt = new EnemyShip(100 * i + 100, 0);
+			EnemyShip grunt = new EnemyShip(100 * i + 100, 0, 4);
 			grunt.addPattern(new GlideAcceleratePattern(grunt, 20, -1, 270));
 			grunt.addPattern(new ShootDownPattern(grunt));
 		}
@@ -66,10 +67,13 @@ public class SpaceGame extends Application {
 					Sprite sprite = iter.next();
 					sprite.update(currentTime);
 					sprite.render(gc);
-					if (sprite.outOfBounds()) iter.remove();
+					sprite.checkCollision();
+					if (sprite.outOfBounds()) remove(sprite);
 				}
 				sprites.addAll(toAdd);
+				sprites.removeAll(toRemove);
 				toAdd = new ArrayList<Sprite>();
+				toRemove = new ArrayList<Sprite>();
 			}
 			
 		}.start();
@@ -79,6 +83,10 @@ public class SpaceGame extends Application {
 	
 	public static void add(Sprite sprite) {
 		toAdd.add(sprite);
+	}
+	
+	public static void remove(Sprite sprite) {
+		toRemove.add(sprite);
 	}
 	
 	public static void main(String[] args) {
