@@ -12,8 +12,8 @@ public abstract class Bullet extends Sprite {
 	int speed, damage;
 	double direction;
 	
-	public Bullet(int x, int y, int damage, Ship parent) {
-		super(x, y);
+	public Bullet(int x, int y, int damage, String imageURL, Ship parent) {
+		super(x, y, imageURL);
 		this.damage = damage;
 		this.parent = parent;
 	}

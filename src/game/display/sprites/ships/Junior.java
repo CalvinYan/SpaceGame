@@ -7,6 +7,7 @@ import game.display.sprites.bullets.StandardPlayerBullet;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 
 /**
@@ -25,8 +26,7 @@ public class Junior extends PlayerShip {
 	private long shootStartTime = 0;
 	
 	public Junior(int x, int y, int health) {
-		super(x, y, health);
-		image = new Image("file:Assets/Drawing.png");
+		super(x, y, health, "file:Assets/Drawing.png");
 	}
 	
 	// Map WASD keys to movement

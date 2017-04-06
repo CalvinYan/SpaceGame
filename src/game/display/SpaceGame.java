@@ -28,15 +28,15 @@ public class SpaceGame extends Application {
 									toAdd = new ArrayList<Sprite>(),
 									toRemove = new ArrayList<Sprite>();
 	
+	private static Group root;
+	
 	private PlayerShip player;
 	
 	@Override
 	public void start(Stage stage) throws Exception {
-		player = new Junior(400, 500, 10);
-
 		stage.setTitle("Testing");
 		
-		Group root = new Group();
+		root = new Group();
 		Scene scene = new Scene(root);
 		stage.setScene(scene);
 		
@@ -47,10 +47,11 @@ public class SpaceGame extends Application {
 		
 		long startTime = System.nanoTime();
 		
+		player = new Junior(400, 500, 10);
 		player.mapControls(scene);
 		
 		for (int i = 0; i < 5; i++) {
-			EnemyShip grunt = new EnemyShip(100 * i + 100, 0, 4);
+			EnemyShip grunt = new EnemyShip(100 * i + 100, 0, 4, "file:Assets/grunt.png");
 			grunt.addPattern(new GlideAcceleratePattern(grunt, 20, -1, 270));
 			grunt.addPattern(new ShootDownPattern(grunt));
 		}
@@ -65,6 +66,7 @@ public class SpaceGame extends Application {
 				Iterator<Sprite> iter = sprites.iterator();
 				while(iter.hasNext()) {
 					Sprite sprite = iter.next();
+					if (!root.getChildren().contains(sprite.getImageView())) root.getChildren().add(sprite.getImageView());
 					sprite.update(currentTime);
 					sprite.render(gc);
 					sprite.checkCollision();
@@ -86,6 +88,7 @@ public class SpaceGame extends Application {
 	}
 	
 	public static void remove(Sprite sprite) {
+		root.getChildren().remove(sprite.getImageView());
 		toRemove.add(sprite);
 	}
 	

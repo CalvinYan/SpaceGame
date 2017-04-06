@@ -6,8 +6,8 @@ import game.display.sprites.bullets.Bullet;
 
 public abstract class Ship extends Sprite {
 
-	public Ship(int x, int y, int health) {
-		super(x, y);
+	public Ship(int x, int y, int health, String imageURL) {
+		super(x, y, imageURL);
 		this.health = health;
 	}
 	

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import game.behavior.Pattern;
 import game.display.sprites.Sprite;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class EnemyShip extends Ship {
 	
@@ -12,9 +13,8 @@ public class EnemyShip extends Ship {
 	
 	ArrayList<Pattern> patterns = new ArrayList<Pattern>();
 
-	public EnemyShip(int x, int y, int health) {
-		super(x, y, health);
-		image = new Image("file:Assets/grunt.png");
+	public EnemyShip(int x, int y, int health, String imageURL) {
+		super(x, y, health, imageURL);
 	}
 
 	@Override

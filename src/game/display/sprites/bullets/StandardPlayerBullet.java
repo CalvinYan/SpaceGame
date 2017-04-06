@@ -3,15 +3,14 @@ package game.display.sprites.bullets;
 import game.display.SpaceGame;
 import game.display.sprites.Sprite;
 import game.display.sprites.ships.Ship;
-import javafx.scene.image.Image;
 
 public class StandardPlayerBullet extends Bullet {
 
 	public StandardPlayerBullet(int x, int y, int damage, Ship parent) {
-		super(x, y, damage, parent);
-		image = new Image("file:Assets/standardplayerbullet.png");
-		this.x = (int)(x + (parent.getWidth() - image.getWidth())/2);
-		this.y = (int)(y - image.getHeight());
+		super(x, y, damage, "file:Assets/standardplayerbullet.png", parent);
+		this.x = (int)(x + (parent.getWidth() - getWidth())/2);
+		this.y = (int)(y - getHeight());
+		System.out.println(parent.getWidth());
 		direction = Math.PI / 2;
 		speed = 25;
 		
