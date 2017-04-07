@@ -1,22 +1,22 @@
 package game.behavior;
 
+import game.display.SpaceGame;
+import game.display.sprites.Sprite;
 import game.display.sprites.bullets.Bullet;
 import game.display.sprites.ships.Ship;
 import javafx.scene.image.Image;
-import game.display.SpaceGame;
-import game.display.sprites.Sprite;
 
-public class ShootDownPattern extends Pattern {
-	
+public class ShootHomingPattern extends Pattern {
+
 	long lastShot = 0;
-
-	public ShootDownPattern(Sprite parent, double startTime, int timeout) {
+	
+	public ShootHomingPattern(Sprite parent, double startTime, int timeout) {
 		super(parent, startTime, timeout);
 	}
 
 	@Override
 	public void update(long currentTime) {
-		int bulletsPerSecond = 3;
+		int bulletsPerSecond = 1;
 		if (currentTime - lastShot > 1000000000/bulletsPerSecond) {
 			lastShot = currentTime;
 			Image image = new Image("file:Assets/standardenemybullet.png");
@@ -28,7 +28,8 @@ public class ShootDownPattern extends Pattern {
 								SpaceGame.remove(one);
 							}
 						}, parent);
-			bullet.addPattern(new GlideAcceleratePattern(bullet, 0, 0, 15, 0, 270));
+			double playerX = SpaceGame.getPlayer().getX() - parent.getX(), playerY = parent.getY() - SpaceGame.getPlayer().getY(), angle = Math.atan2(playerY, playerX);
+			bullet.addPattern(new GlideAcceleratePattern(bullet, 0, 0, 15, 0, Math.toDegrees(angle)));
 		}
 	}
 

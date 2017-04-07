@@ -5,11 +5,14 @@ import java.util.Iterator;
 
 import game.behavior.GlideAcceleratePattern;
 import game.behavior.ShootDownPattern;
+import game.behavior.ShootHomingPattern;
 import game.display.sprites.Sprite;
 import game.display.sprites.bullets.Bullet;
 import game.display.sprites.ships.EnemyShip;
 import game.display.sprites.ships.Junior;
 import game.display.sprites.ships.PlayerShip;
+import game.levels.Level;
+import game.levels.Level1;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -30,7 +33,11 @@ public class SpaceGame extends Application {
 	
 	private static Group root;
 	
-	private PlayerShip player;
+	private static PlayerShip player;
+	
+	private double healthbarLength;
+	
+	private Level currentLevel;
 	
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -47,15 +54,14 @@ public class SpaceGame extends Application {
 		
 		long startTime = System.nanoTime();
 		
-		player = new Junior(400, 500, 10);
+		player = new Junior(400, 500, 20);
+		healthbarLength = player.getHealth();
+		double scalar = 200 / healthbarLength;
 		player.mapControls(scene);
 		
-		for (int i = 0; i < 5; i++) {
-			EnemyShip grunt = new EnemyShip(100 * i + 100, 0, 4, "file:Assets/grunt.png");
-			grunt.addPattern(new GlideAcceleratePattern(grunt, 20, -1, 270));
-			grunt.addPattern(new ShootDownPattern(grunt));
-		}
+		currentLevel = new Level1();
 		
+		currentLevel.start();
 		
 		new AnimationTimer() {
 
@@ -63,12 +69,18 @@ public class SpaceGame extends Application {
 			public void handle(long currentTime) {
 				gc.setFill(Color.BLACK);
 				gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+				gc.setFill(Color.RED);
+				if (healthbarLength > player.getHealth()) healthbarLength -= .2;
+				gc.fillRect(0, canvas.getHeight() - 20, scalar * healthbarLength, 20);
+				gc.setFill(Color.GREEN);
+				gc.fillRect(0, canvas.getHeight() - 20, scalar * player.getHealth(), 20);
+				currentLevel.update(currentTime);
 				Iterator<Sprite> iter = sprites.iterator();
 				while(iter.hasNext()) {
 					Sprite sprite = iter.next();
 					if (!root.getChildren().contains(sprite.getImageView())) root.getChildren().add(sprite.getImageView());
 					sprite.update(currentTime);
-					sprite.render(gc);
+					sprite.render();
 					sprite.checkCollision();
 					if (sprite.outOfBounds()) remove(sprite);
 				}
@@ -91,6 +103,8 @@ public class SpaceGame extends Application {
 		root.getChildren().remove(sprite.getImageView());
 		toRemove.add(sprite);
 	}
+	
+	public static PlayerShip getPlayer() { return player; }
 	
 	public static void main(String[] args) {
 		launch(args);

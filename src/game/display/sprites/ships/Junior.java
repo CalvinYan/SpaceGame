@@ -1,9 +1,9 @@
 package game.display.sprites.ships;
 
+import game.behavior.GlideAcceleratePattern;
 import game.display.SpaceGame;
 import game.display.sprites.Sprite;
-import game.display.sprites.bullets.StandardEnemyBullet;
-import game.display.sprites.bullets.StandardPlayerBullet;
+import game.display.sprites.bullets.Bullet;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -110,7 +110,15 @@ public class Junior extends PlayerShip {
 	
 	private void fire() {
 		shootStartTime = System.nanoTime();
-		new StandardPlayerBullet(x, y, 1, this);
+		Image image = new Image("file:Assets/standardplayerbullet.png");
+		Bullet bullet = new Bullet((int)(x + (getWidth() - image.getWidth())/2), (int)(y - image.getHeight()), 1, "file:Assets/standardplayerbullet.png",
+								(Sprite one, Sprite two) -> {
+									if (!two.equals(this) && two.damageable()) {
+										((Ship) two).changeHealth(-1);
+										SpaceGame.remove(one);
+									}
+								}, this);
+		bullet.addPattern(new GlideAcceleratePattern(bullet, 0, 0, 25, 0, 90));
 	}
 
 	@Override
