@@ -20,9 +20,11 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class SpaceGame extends Application {
@@ -56,12 +58,10 @@ public class SpaceGame extends Application {
 		
 		player = new Junior(400, 500, 20);
 		healthbarLength = player.getHealth();
-		double scalar = 200 / healthbarLength;
+		double scalar = 400 / healthbarLength;
 		player.mapControls(scene);
 		
 		currentLevel = new Level1();
-		
-		currentLevel.start();
 		
 		new AnimationTimer() {
 
@@ -70,10 +70,10 @@ public class SpaceGame extends Application {
 				gc.setFill(Color.BLACK);
 				gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 				gc.setFill(Color.RED);
-				if (healthbarLength > player.getHealth()) healthbarLength -= .2;
-				gc.fillRect(0, canvas.getHeight() - 20, scalar * healthbarLength, 20);
+				if (healthbarLength > player.getHealth()) healthbarLength -= .15;
+				gc.fillRect(0, canvas.getHeight() - 40, scalar * healthbarLength, 40);
 				gc.setFill(Color.GREEN);
-				gc.fillRect(0, canvas.getHeight() - 20, scalar * player.getHealth(), 20);
+				gc.fillRect(0, canvas.getHeight() - 40, scalar * player.getHealth(), 40);
 				currentLevel.update(currentTime);
 				Iterator<Sprite> iter = sprites.iterator();
 				while(iter.hasNext()) {
@@ -104,7 +104,23 @@ public class SpaceGame extends Application {
 		toRemove.add(sprite);
 	}
 	
+	public static void removeImageView(ImageView iv) {
+		root.getChildren().remove(iv);
+	}
+	
 	public static PlayerShip getPlayer() { return player; }
+	
+	public static int getWidth() { return 800; }
+	public static int getHeight() { return 1000; }
+	
+	public static void flashWarning() {
+		Text text = new Text(200, getHeight() / 2, "WARNING!");
+		/*text.setScaleX(10);
+		text.setScaleY(10);*/
+		text.setFill(Color.RED);
+		text.setFont(Font.loadFont("file:Assets/futured.ttf", 96));
+		root.getChildren().add(text);
+	}
 	
 	public static void main(String[] args) {
 		launch(args);

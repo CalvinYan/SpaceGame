@@ -8,8 +8,6 @@ import javafx.scene.image.Image;
 
 public class ShootHomingPattern extends Pattern {
 
-	long lastShot = 0;
-	
 	public ShootHomingPattern(Sprite parent, double startTime, int timeout) {
 		super(parent, startTime, timeout);
 	}

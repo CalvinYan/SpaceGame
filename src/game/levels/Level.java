@@ -2,26 +2,32 @@ package game.levels;
 
 import java.util.ArrayList;
 
+import game.display.SpaceGame;
+
 public class Level {
 
 	ArrayList<Wave> waves = new ArrayList<Wave>();
 	
-	long startTime, lastSpawn;
+	private boolean isBossBattle = false;
 	
-	public void start() {
-		startTime = System.nanoTime();
-	}
+	private Wave current;
 	
 	public void update(long currentTime) {
-		while (!waves.isEmpty() && isReady(waves.get(0), currentTime)) {
-			waves.get(0).begin();
-			waves.remove(0);
-			lastSpawn = currentTime;
+		if (current == null || current.isCleared()) {
+			if (!waves.isEmpty()) {
+				current = waves.get(0);
+				current.begin();
+				waves.remove(0);
+			} else {
+				if (!isBossBattle) {
+					SpaceGame.flashWarning();
+					spawnBoss();
+					isBossBattle = true;
+				}
+			}
+			
 		}
 	}
 	
-	public boolean isReady(Wave wave, long currentTime) {
-		return currentTime - lastSpawn > wave.getWaitTime() * 1000000000;
-	}
-	
+	public void spawnBoss() { return; }
 }

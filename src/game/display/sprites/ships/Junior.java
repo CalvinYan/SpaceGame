@@ -89,6 +89,8 @@ public class Junior extends PlayerShip {
 	
 	// Manages timed actions of the ship
 	public void update(long currentTime) {
+		super.update(currentTime);
+		
 		int xVel = 0;
 		if (aPressed) xVel -= 10;
 		if (dPressed) xVel += 10;
@@ -102,7 +104,7 @@ public class Junior extends PlayerShip {
 		x += xVel;
 		y += yVel;
 		
-		int bulletsPerSecond = 10;
+		int bulletsPerSecond = 15;
 		if (enterPressed && (currentTime - shootStartTime) > 1000000000/bulletsPerSecond) {
 			fire();
 		}

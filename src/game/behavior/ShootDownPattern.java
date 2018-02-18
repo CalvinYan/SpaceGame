@@ -8,9 +8,7 @@ import game.display.sprites.Sprite;
 
 public class ShootDownPattern extends Pattern {
 	
-	long lastShot = 0;
-
-	public ShootDownPattern(Sprite parent, double startTime, int timeout) {
+	public ShootDownPattern(Sprite parent, double startTime, double timeout) {
 		super(parent, startTime, timeout);
 	}
 

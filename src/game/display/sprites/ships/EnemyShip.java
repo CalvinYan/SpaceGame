@@ -15,12 +15,13 @@ public class EnemyShip extends Ship {
 	
 	ArrayList<Pattern> toExecute = new ArrayList<Pattern>(), running = new ArrayList<Pattern>();
 
-	public EnemyShip(int x, int y, int health, String imageURL, CollisionManager cm) {
+	public EnemyShip(double x, double y, int health, String imageURL, CollisionManager cm) {
 		super(x, y, health, imageURL, cm);
 		offscreenAllowed = true;
 	}
 
 	public void update(long currentTime) {
+		super.update(currentTime);
 		for (Pattern pattern : toExecute) {
 			if (currentTime - spawnTime > pattern.getStartTime() * 1000000000) {
 				running.add(pattern);
@@ -38,14 +39,22 @@ public class EnemyShip extends Ship {
 		}
 		toExecute.removeAll(running);
 	}
-
-	public void onHit(Sprite other) {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	public void addPattern(Pattern pattern) { toExecute.add(pattern); }
 	
+	public void removePattern(Pattern pattern) { running.remove(pattern); }
+	
 	public boolean isPlayer() { return false; }
+	
+	public boolean outOfBounds() {
+		boolean val = super.outOfBounds();
+		if (toExecute.isEmpty()) return val;
+		return false;
+	}
+	
+	public void cancelAllPatterns() {
+		toExecute.clear();
+		running.clear();
+	}
 
 }

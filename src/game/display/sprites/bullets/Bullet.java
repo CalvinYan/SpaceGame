@@ -1,6 +1,7 @@
 package game.display.sprites.bullets;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import game.behavior.Pattern;
 import game.display.SpaceGame;
@@ -29,11 +30,14 @@ public class Bullet extends Sprite {
 		for (Pattern pattern : toExecute) {
 			if (currentTime - spawnTime > pattern.getStartTime() * 1000000000) {
 				running.add(pattern);
+				pattern.start();
 			}
 		}
-		for (Pattern pattern : running) {
+		Iterator<Pattern> iter = running.iterator();
+		while (iter.hasNext()) {
+			Pattern pattern = iter.next();
 			if (pattern.isFinished() || pattern.isTimeOut(currentTime)) {
-				running.remove(pattern);
+				iter.remove();
 			} else {
 				pattern.update(currentTime);
 			}

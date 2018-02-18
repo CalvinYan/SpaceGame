@@ -7,12 +7,16 @@ public class GlideAcceleratePattern extends Pattern {
 	
 	private double velocity, acceleration, direction;
 
-	public GlideAcceleratePattern(Sprite parent, double startTime, int timeout, double vel, double accel, double dir) {
+	public GlideAcceleratePattern(Sprite parent, double startTime, double timeout, double vel, double accel, double dir) {
 		super(parent, startTime, timeout);
 		velocity = vel;
 		acceleration = accel;
 		direction = dir;
-		parent.getImageView().setRotate(-1 * dir);
+	}
+	
+	public void start() {
+		super.start();
+		parent.setDirection(direction);
 	}
 
 	@Override
@@ -22,6 +26,6 @@ public class GlideAcceleratePattern extends Pattern {
 		velocity += acceleration;
 	}
 	
-	public boolean isFinished() { return velocity <= 0; }
+	public boolean isFinished() { return velocity < 0; }
 
 }
